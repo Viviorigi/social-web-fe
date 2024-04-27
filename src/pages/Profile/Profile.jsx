@@ -3,13 +3,19 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import PostCard from '../../component/Post/PostCard';
 import UserReelCard from '../../component/Reels/UserReelCard';
+import { useSelector } from 'react-redux';
+import ProfileModal from './ProfileModal';
 
 
 const Profile = () => {
 
   const { id } = useParams();
-
+  const {auth}=useSelector(store => store)
   const [value, setValue] = React.useState('post');
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpenProfileModal = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -39,14 +45,14 @@ const Profile = () => {
         <Avatar sx={{ width: '10rem', height: '10rem' }} className='transform -translate-y-24'
           src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxaK34xF4FJxegCoiqO5yJ3IJH7Ujezp3Srwi6mL1XqA&s' />
 
-        {true ? <Button sx={{ borderRadius: '20px' }} variant='outlined'>Edit Profile</Button> : <Button variant='outlined'>Follow</Button>}
+        {true ? <Button  onClick={handleOpenProfileModal} sx={{ borderRadius: '20px' }} variant='outlined'>Edit Profile</Button> : <Button variant='outlined'>Follow</Button>}
 
       </div>
       <div className='px-10 py-5'>
 
         <div>
-          <h1 className='py-1 font-bold text-xl'>Keqing</h1>
-          <p>@keqing</p>
+          <h1 className='py-1 font-bold text-xl'>{auth.user?.firstName +" "+auth.user?.lastName}</h1>
+          <p>@{auth.user?.firstName.toLowerCase() +"_"+auth.user?.lastName.toLowerCase()}</p>
         </div>
 
         <div className='flex gap-6 items-center py-3'>
@@ -96,6 +102,7 @@ const Profile = () => {
         ) : ('')}
         </div>
       </section>
+      <ProfileModal open={open} handleClose={handleClose}/>
     </Card>
   )
 }

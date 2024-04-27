@@ -2,8 +2,14 @@ import React from 'react'
 import { navigationMenu } from './SideBarNavigation'
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
+
 const Sidebar = () => {
+
+  const {auth}=useSelector(store => store)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate=useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -11,6 +17,15 @@ const Sidebar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleNavigate= (item) =>{
+    if(item.title === 'Profile'){
+      navigate(`/profile/${auth.user?.id}`)
+    }else{
+      navigate(item.path)
+    }
+    
+  }
 
   return (
     <Card className='card h-screen flex flex-col justify-between py-5'>
@@ -25,7 +40,7 @@ const Sidebar = () => {
 
         <div className='space-y-8'>
           {navigationMenu.map((item) =>
-            <div className='cursor-pointer flex space-x-3 items-center'>
+            <div onClick={()=>handleNavigate(item)} className='cursor-pointer flex space-x-3 items-center'>
               {item.icon}
               <p className='text-xl'>{item.title}</p>
             </div>
@@ -39,8 +54,8 @@ const Sidebar = () => {
           <div className=' flex items-center space-x-3'>
             <Avatar src='https://cdn.pixabay.com/photo/2017/02/25/22/04/user-icon-2098873_1280.png' />
             <div>
-              <p className='font-bold'>Nguyen Dinh Duong</p>
-              <p className='opacity-70'>@nguyendinhduong</p>
+              <p className='font-bold'>{auth.user?.firstName +" "+auth.user?.lastName}</p>
+              <p className='opacity-70'>@{auth.user?.firstName.toLowerCase() +"_"+auth.user?.lastName.toLowerCase()}</p>
             </div>
           </div>
           <Button
