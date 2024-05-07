@@ -3,7 +3,8 @@ import { navigationMenu } from './SideBarNavigation'
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from '@mui/material'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Sidebar = () => {
 
@@ -25,6 +26,20 @@ const Sidebar = () => {
       navigate(item.path)
     }
     
+  }
+  const profile=async ()=>{
+   await navigate(`/profile/${auth.user?.id}`)
+   handleClose()
+  }
+  const jwt=localStorage.getItem('jwt')
+  const logout= async ()=>{
+    await axios.post('http://localhost:8080/auth/logout',null,{
+      headers: {
+        "Authorization": `Bearer ${jwt}`
+      }
+    })
+    await localStorage.removeItem('jwt');
+    window.location.href = '/';
   }
 
   return (
@@ -52,7 +67,7 @@ const Sidebar = () => {
         <Divider />
         <div className='pl-5 flex items-center justify-between pt-5'>
           <div className=' flex items-center space-x-3'>
-            <Avatar src='https://cdn.pixabay.com/photo/2017/02/25/22/04/user-icon-2098873_1280.png' />
+            <Avatar src={auth?.user?.avatar} />
             <div>
               <p className='font-bold'>{auth.user?.firstName +" "+auth.user?.lastName}</p>
               <p className='opacity-70'>@{auth.user?.firstName.toLowerCase() +"_"+auth.user?.lastName.toLowerCase()}</p>
@@ -76,9 +91,8 @@ const Sidebar = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={profile}>My profile</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </div>
       </div>

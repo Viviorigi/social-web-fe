@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import { loginUserAction } from '../../Redux/Auth/auth.action'
-import { useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 
 const initialValues = {email:"",password:""}
 const validationSchema = {email:Yup.string().email("Invalid email").required("Email is required"),
@@ -16,9 +16,9 @@ const Login = () => {
   const dispatch=useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (values) =>{
-    console.log("handlesubmit",values);
-    dispatch(loginUserAction({data:values}))
+  const handleSubmit = async (values) => {
+    await dispatch(loginUserAction({data:values}))
+    window.location.href = '/';
   }
 
   return (

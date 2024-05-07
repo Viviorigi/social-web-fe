@@ -1,14 +1,15 @@
 import { Avatar, Button, CardHeader } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { red } from '@mui/material/colors';
-const PopularUserCard = () => {
+
+const PopularUserCard = ({item}) => {
+  const navigate = useNavigate();
   return (
     <div>
         <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar src={item.avatar}  aria-label="recipe">
           </Avatar>
         }
         action={
@@ -16,8 +17,9 @@ const PopularUserCard = () => {
             Follow
           </Button>
         }
-        title="Duong"
-        subheader="@duong"
+        title={item?.firstName ? item?.firstName + ' ' + item?.lastName : ''}
+        subheader={item?.firstName ? '@' + item?.firstName.toLowerCase() + '' + item?.lastName.toLowerCase() : ''}
+        onClick={() => navigate(`/profile/${item.id}`)}
       />
     </div>
   )

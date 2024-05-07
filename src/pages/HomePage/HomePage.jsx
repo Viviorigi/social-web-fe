@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Route, Routes, useLocation } from 'react-router-dom'
 import MiddlePart from '../../component/MiddlePart/MiddlePart'
@@ -19,7 +19,7 @@ const homepage = () => {
   console.log('auth',auth);
 
   useEffect(()=>{
-    dispatch(getProfileAction(jwt))
+      dispatch(getProfileAction(jwt))    
   },[])
 
   return (

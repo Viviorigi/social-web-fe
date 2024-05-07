@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SearchUser from '../SearchUser/SearchUser'
 import PopularUserCard from './PopularUserCard'
 import { Card } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllUser } from '../../Redux/Auth/auth.action'
 const HomeRight = () => {
-  const popularUser = [1, 1, 1, 1, 1]
+  const dispatch =useDispatch();
+  const {auth}= useSelector(store=>store);
+  useEffect(()=>{
+    dispatch(getAllUser());
+  },[]);
+  console.log(auth);
+  
   return (
     <div className='pr-5'>
 
@@ -16,8 +24,7 @@ const HomeRight = () => {
         </div>
 
         <div className=''>
-          {popularUser.map((item=><PopularUserCard />))}
-          
+          {auth?.listUser.slice(0, 5).map((item=><PopularUserCard item={item} />))}
         </div>
       </Card>
 

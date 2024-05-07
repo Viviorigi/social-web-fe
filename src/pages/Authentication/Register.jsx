@@ -22,6 +22,7 @@ const Register = () => {
     values.gender=gender
     console.log("handlesubmit", values);
     dispatch(registerUserAction({data:values}))
+    window.location.href = '/';
   }
 
   const [gender, setGender] = useState('');
