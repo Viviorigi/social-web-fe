@@ -34,7 +34,7 @@ This is the frontend of a social media web application, built with **ReactJS**. 
 - **Frontend Framework:** ReactJS
 - **State Management:** React Context API
 - **API Communication:** Axios
-- **Styling:** CSS, Bootstrap
+- **Styling:** CSS, TailwindCss, MasterialUI
 - **Others:** React Router DOM for navigation
 
 ---
